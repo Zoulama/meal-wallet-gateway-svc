@@ -1,0 +1,51 @@
+get:
+  summary: Obtain the list of organization accounts
+  security:
+    - oAuth2:
+      - ListOrganizationAccounts
+  tags:
+    - Organizations
+  responses:
+    '200':
+      description: Successfully obtained the list of organization accounts
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  OrganizationAccounts:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountsWithId'
+post:
+  summary: Create organization account
+  security:
+    - oAuth2:
+      - CreateOrganizationAccount
+  tags:
+    - Organizations
+  requestBody:
+    description: Organization account payload
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Account'
+  responses:
+    '200':
+      description: Successfully created organization account
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  OrganizationAccount:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountWithId'

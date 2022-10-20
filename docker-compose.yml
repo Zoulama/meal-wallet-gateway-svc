@@ -1,0 +1,15 @@
+version: '3.2'
+services:
+  apache-php:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    volumes:
+      - type: bind
+        source: .
+        target: /var/www/html
+    ports:
+      - "8070:80"
+    environment:
+      - PORT=80
+

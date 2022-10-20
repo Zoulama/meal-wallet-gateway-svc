@@ -1,0 +1,76 @@
+get:
+  summary: Obtain a list of  professionals
+  security:
+    - oAuth2:
+        - ProfessionalRead
+  tags:
+    - Professionals
+  responses:
+    '200':
+      description: Successfully obtained list of professionals
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  professionals:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ProfessionalsWithId'
+
+    '500':
+      description: Error when obtaining list of professionals
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6001
+            statusDescription: Error when obtaining list of professionals
+
+post:
+  summary: Create a professional
+  tags:
+    - Professionals
+  security:
+    - oAuth2:
+        - ProfessionalWrite
+  requestBody:
+    description: The  professional specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Professional'
+  responses:
+    '201':
+      description: Successfully created professional
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  professionalsWithId:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ProfessionalsWithId'
+    '500':
+      description: Error when creating professional
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6010
+            statusDescription: Error when creating professional
+
+
+

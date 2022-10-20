@@ -1,0 +1,38 @@
+get:
+  summary: Obtain a list of user reports
+  security:
+    - oAuth2:
+        - ReadReport
+  tags:
+    - Reports
+  parameters:
+    - in: path
+      required: true
+      name: userId
+      schema:
+        type: string
+    - in: path
+      name: pageNumber
+      schema:
+        type: integer
+      description: Page Number
+    - in: path
+      name: limit
+      schema:
+        type: integer
+      description: record limit
+  responses:
+    '200':
+      description: Successfully obtained the list of reports
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroReport:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportWithId'

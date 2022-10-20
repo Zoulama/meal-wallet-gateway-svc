@@ -1,0 +1,76 @@
+get:
+  summary: Obtain a list of  applications
+  security:
+    - oAuth2:
+        - ApplicationRead
+  tags:
+    - Applications
+  responses:
+    '200':
+      description: Successfully obtained list of applications
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  applications:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ApplicationsWithId'
+
+    '500':
+      description: Error when obtaining list of applications
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6001
+            statusDescription: Error when obtaining list of applications
+
+post:
+  summary: Create a application
+  tags:
+    - Applications
+  security:
+    - oAuth2:
+        - ApplicationWrite
+  requestBody:
+    description: The  application specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Application'
+  responses:
+    '201':
+      description: Successfully created application
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  applicationsWithId:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ApplicationsWithId'
+    '500':
+      description: Error when creating application
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6010
+            statusDescription: Error when creating application
+
+
+

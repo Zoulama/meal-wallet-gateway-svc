@@ -1,0 +1,49 @@
+get:
+  summary: Fetch report Comment data
+  security:
+    - oAuth2:
+        - CommentRead
+  tags:
+    - Comments
+  parameters:
+    - name: reportId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched Comment data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  reportComments:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CommentsWithId'
+    '404':
+      description: Report not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Report not found
+    '500':
+      description: Error when fetching Comment
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching Comment

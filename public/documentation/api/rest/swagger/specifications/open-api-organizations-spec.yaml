@@ -1,0 +1,40 @@
+get:
+  summary: Obtain a list of organizations
+  security:
+    - oAuth2:
+        - FetchOrganizationData
+  tags:
+    - Organizations
+  responses:
+    '200':
+      description: Successfully obtained the list of organizations plans
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroOrganization:
+                    $ref: 'open-api-spec.yaml#/components/schemas/OrganizationWithId'
+post:
+  summary: Create an organization
+  tags:
+    - Organizations
+  requestBody:
+    description: The organizations specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Organization'
+  responses:
+    '201':
+      description: Successfully created the organization
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/Organization'

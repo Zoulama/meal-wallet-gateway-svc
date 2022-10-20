@@ -1,0 +1,52 @@
+get:
+  summary: Obtain meal-wallet API access token
+  security:
+    - oAuth2:
+        - getToken
+  tags:
+    - Authentication
+  parameters:
+    - in: path
+      required: true
+      name: clientId
+      schema:
+        type: string
+    - in: path
+      required: true
+      name: clientSecret
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully generated access token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  AccessToken:
+                    type: string
+                    example: |
+                      eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ....
+                  ExpiresIn:
+                    type: string
+                    example: 3600
+                  TokenType:
+                    type: string
+                    enum:
+                      - Bearer
+                  RefreshToken:
+                    type: string
+                    example: |
+                      eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ....
+    '401':
+      description: Invalid client id or secret
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'

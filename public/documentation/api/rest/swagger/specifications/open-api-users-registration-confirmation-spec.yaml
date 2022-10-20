@@ -1,0 +1,40 @@
+get:
+  summary: Confirm user registration
+  security:
+    - oAuth2:
+        - ConfirmUserRegistration
+  tags:
+    - Registration
+  parameters:
+    - in: path
+      required: true
+      name: userName
+      schema:
+        type: string
+    - in: path
+      required: true
+      name: code
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully confirmed user registration
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: john.doe@gmail.com
+    '401':
+      description: Invalid username or confirmation code
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'

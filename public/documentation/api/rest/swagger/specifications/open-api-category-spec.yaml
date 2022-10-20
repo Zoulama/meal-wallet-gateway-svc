@@ -1,0 +1,95 @@
+get:
+  summary: Fetch Category data
+  security:
+    - oAuth2:
+        - CategoryRead
+  tags:
+    - Categories
+  parameters:
+    - name: categoryId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched Category data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  category:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CategoryWithId'
+    '404':
+      description: Category not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Category not found
+    '500':
+      description: Error when fetching Category
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching Category
+  #put:
+  #  summary: Update Category data
+      #  security:
+          #    - oAuth2:
+  #        - UpdateCategoryData
+      #  tags:
+  #    - Categories
+      #  parameters:
+      #    - name: categoryId
+      #      in: path
+      #      required: true
+        #      schema:
+        #        type: string
+  #        example: 678442659403
+    #  requestBody:
+    #    description: The Category specification
+    #    required: true
+      #    content:
+        #      application/json:
+          #        schema:
+  #          $ref: 'open-api-spec.yaml#/components/schemas/Category'
+    #  responses:
+      #    '201':
+      #      description: Successfully updated Category
+        #      content:
+          #        application/json:
+            #          schema:
+            #            type: object
+              #            properties:
+              #              status:
+              #                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              #              data:
+              #                type: object
+              #                properties:
+              #                 category:
+    #                   $ref: 'open-api-spec.yaml#/components/schemas/CategoriesWithId'
+      #   '500':
+      #      description: Error when updating the Category information
+        #      content:
+          #        application/json:
+            #          schema:
+          #            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+            #          example:
+            #            status: fail
+            #            statusCode: 4030
+#            statusDescription: Error when updating the Category information

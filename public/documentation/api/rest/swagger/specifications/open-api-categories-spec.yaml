@@ -1,0 +1,73 @@
+get:
+  summary: Obtain a list of  Categories
+  security:
+    - oAuth2:
+        - CategoryRead
+  tags:
+    - Categories
+  responses:
+    '200':
+      description: Successfully obtained list of Categories
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  categories:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CategoriesWithId'
+
+    '500':
+      description: Error when obtaining list of Categories
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6001
+            statusDescription: Error when obtaining list of Categories
+
+post:
+  summary: Create a Category
+  security:
+    - oAuth2:
+        - CategoryWrite
+  tags:
+    - Categories
+  requestBody:
+    description: The  Category specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/CategoryRequest'
+  responses:
+    '201':
+      description: Successfully created Category
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  categoryWithId:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CategoryWithId'
+    '500':
+      description: Error when creating Category
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6010
+            statusDescription: Error when creating Category

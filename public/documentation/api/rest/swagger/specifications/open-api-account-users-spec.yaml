@@ -1,0 +1,51 @@
+get:
+  summary: Obtain a list of meal-wallet account users
+  security:
+    - oAuth2:
+      - ListUsers
+  tags:
+    - Account Users
+  responses:
+    '200':
+      description: Successfully obtained the list of meal-wallet account users
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccountUsers:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountUsersWithId'
+post:
+  summary: Create a user account
+  security:
+    - oAuth2:
+        - CreateUsers
+  tags:
+    - Account Users
+  requestBody:
+    description: The meal-wallet account user info
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/AccountUser'
+  responses:
+    '200':
+      description: Successfully create the meal-wallet account user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccount:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountUserWithId'

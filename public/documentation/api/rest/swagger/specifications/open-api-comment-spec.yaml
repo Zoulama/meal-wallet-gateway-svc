@@ -1,0 +1,95 @@
+get:
+  summary: Fetch Comment data
+  security:
+    - oAuth2:
+        - CommentRead
+  tags:
+    - Comments
+  parameters:
+    - name: commentId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched Comment data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  comment:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CommentWithId'
+    '404':
+      description: Comment not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Comment not found
+    '500':
+      description: Error when fetching Comment
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching Comment
+#put:
+  #  summary: Update Comment data
+      #  security:
+          #    - oAuth2:
+  #        - UpdateCommentData
+      #  tags:
+  #    - Comments
+      #  parameters:
+      #    - name: commentId
+      #      in: path
+      #      required: true
+        #      schema:
+        #        type: string
+  #        example: 678442659403
+    #  requestBody:
+    #    description: The Comment specification
+    #    required: true
+      #    content:
+        #      application/json:
+          #        schema:
+  #          $ref: 'open-api-spec.yaml#/components/schemas/Comment'
+    #  responses:
+      #    '201':
+      #      description: Successfully updated Comment
+        #      content:
+          #        application/json:
+            #          schema:
+            #            type: object
+              #            properties:
+              #              status:
+              #                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              #              data:
+              #                type: object
+              #                properties:
+              #                  comment:
+    #                    $ref: 'open-api-spec.yaml#/components/schemas/CommentsWithId'
+      #    '500':
+      #      description: Error when updating the Comment information
+        #      content:
+          #        application/json:
+            #          schema:
+          #            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+#          example:
+#            status: fail
+#            statusCode: 4030
+#            statusDescription: Error when updating the Comment information

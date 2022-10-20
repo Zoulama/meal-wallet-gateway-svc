@@ -1,0 +1,28 @@
+get:
+  summary: Obtain a list of reports accounts
+  security:
+    - oAuth2:
+        - ReadReport
+  tags:
+    - Reports
+  parameters:
+    - in: path
+      required: true
+      name: accountId
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully obtained the list of reports
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroReport:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportWithId'

@@ -1,0 +1,95 @@
+get:
+  summary: Fetch application data
+  tags:
+    - Applications
+  security:
+    - oAuth2:
+        - ApplicationRead
+  parameters:
+    - name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched application data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  application:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ApplicationWithId'
+    '404':
+      description: Application not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Application not found
+    '500':
+      description: Error when fetching application
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching application
+put:
+  summary: Update application data
+  security:
+    - oAuth2:
+        - ApplicationUpdate
+  tags:
+    - Applications
+  parameters:
+    - name: applicationId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 678442659403
+  requestBody:
+    description: The application specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Application'
+  responses:
+    '201':
+      description: Successfully updated application
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  application:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ApplicationsWithId'
+    '500':
+      description: Error when updating the application information
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 4030
+            statusDescription: Error when updating the application information

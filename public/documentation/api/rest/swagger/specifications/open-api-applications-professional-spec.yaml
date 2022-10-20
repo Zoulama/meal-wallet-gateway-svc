@@ -1,0 +1,49 @@
+get:
+  summary: Fetch professional application data
+  tags:
+    - Applications
+  security:
+    - oAuth2:
+        - ApplicationRead
+  parameters:
+    - name: professionalId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched application data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  professionalApplications:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ApplicationsWithId'
+    '404':
+      description: Professional not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Professional not found
+    '500':
+      description: Error when fetching application
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching application

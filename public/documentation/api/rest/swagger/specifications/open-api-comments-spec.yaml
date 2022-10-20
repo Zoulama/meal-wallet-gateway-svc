@@ -1,0 +1,76 @@
+get:
+  summary: Obtain a list of  comments
+  security:
+    - oAuth2:
+        - CommentRead
+  tags:
+    - Comments
+  responses:
+    '200':
+      description: Successfully obtained list of Comments
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  comments:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CommentsWithId'
+
+    '500':
+      description: Error when obtaining list of Comments
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6001
+            statusDescription: Error when obtaining list of Comments
+
+post:
+  summary: Create a Comment
+  security:
+    - oAuth2:
+        - CommentWrite
+  tags:
+    - Comments
+  requestBody:
+    description: The  Comment specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/CommentRequest'
+  responses:
+    '201':
+      description: Successfully created Comment
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  commentsWithId:
+                    $ref: 'open-api-spec.yaml#/components/schemas/CommentsWithId'
+    '500':
+      description: Error when creating Comment
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6010
+            statusDescription: Error when creating Comment
+
+
+

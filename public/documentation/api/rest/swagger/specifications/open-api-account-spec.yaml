@@ -1,0 +1,68 @@
+get:
+  summary: Obtain meal-wallet account info
+  security:
+    - oAuth2:
+        - GetAccountInfo
+  tags:
+    - Accounts
+  parameters:
+    - in: path
+      required: true
+      name: accountId
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully obtained a meal-wallet account info
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccount:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountWithId'
+put:
+  summary: Update meal-wallet account
+  security:
+    - oAuth2:
+        - UpdateAccountInfo
+  tags:
+    - Accounts
+  parameters:
+    - in: path
+      required: true
+      name: userId
+      schema:
+        type: string
+    - in: path
+      required: true
+      name: accountId
+      schema:
+        type: string
+  requestBody:
+    description: The meal-wallet account info
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Account'
+  responses:
+    '200':
+      description: Successfully patched the meal-wallet account
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccount:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountWithId'

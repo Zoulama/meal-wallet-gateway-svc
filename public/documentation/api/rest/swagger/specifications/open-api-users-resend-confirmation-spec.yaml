@@ -1,0 +1,35 @@
+get:
+  summary: Resend Confirmation Code
+  security:
+    - oAuth2:
+        - ConfirmUserRegistration
+  tags:
+    - Registration
+  parameters:
+    - in: path
+      required: true
+      name: userName
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully resent registration code
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: Success
+    '401':
+      description: Invalid username or confirmation code
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'

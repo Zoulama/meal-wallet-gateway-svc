@@ -1,0 +1,439 @@
+openapi: 3.0.0
+info:
+  title: Authentication service
+  version: 0.0.1
+  description: |
+    The  Gateway API is a platform which handles the creation and management of user accounts.
+    Interactions with the platform are made using REST API endpoints.
+    There are several components involved in account operations
+
+    # API components
+
+
+
+    ## Organizations
+    Each legal authority or account using the MealWallet Platform is seen as a meal-wallet Organization. It's a container that gathers information about companies
+    such as their legal representatives or legal documents. It could be also compliance and regulation requirements the account has to meet with regards
+    to where customer data are stored and which security policies to apply
+
+    ## Accounts
+    Users or organizations can have mutliple accounts which their use for various means
+
+    ## Account Users
+    User personal information are handled separately from meal-wallet accounts data
+    That's where we enforce data security policies and compliance requirements
+
+    # Responses
+
+    ## HTTP Response Codes
+    | Status Code | Usage                                                       |
+    |-------------|-------------------------------------------------------------|
+    | 200         | The request completed successfully                          |
+    | 201         | A new resource has been created                             |
+    | 400         | Malformed request                                           |
+    | 401         | Missing access token                                        |
+    | 403         | The client does not have permission to access this resource |
+    | 404         | Resource not found                                          |
+    | 405         | Method not supported                                        |
+    | 500         | Internal server error                                       |
+    | 503         | Service unvailable                                          |
+
+    ## Errors
+    whenever an error occured within the platform, an error response that describes the problem will be returned
+
+    | Field Name        | Field Description     |
+    |-------------------|-----------------------|
+    | Status            | "fail" or "error"     |
+    | StatusCode        | A business error code |
+    | StatusDescription | Error description     |
+
+    ## Error codes
+
+    | Error Code | Error Description                                |
+    |------------|--------------------------------------------------|
+    | 0001       | Can't obtain the list of meal-wallet account users    |
+    | 0002       | Can't create the meal-wallet account user             |
+    | 0003       | Account user not found                    |
+    | 0004       | Can't obtain meal-wallet account user data            |
+
+    # Useful links
+
+  termsOfService: 'http://swagger.io/terms/'
+  x-logo:
+    url: '/img/kibaro_logo.jpeg'
+    backgroundColor: '#FFFFFF'
+    altText: KIBARO Logo
+servers:
+  - url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+    description: Testing Server
+  - url: 'http://localhost:8060/'
+    description: Local Server
+tags:
+  - name: Organizations
+    description: A Organization is a account that have a set of account
+    externalDocs:
+      url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+  - name: Accounts
+    description: Accounts
+    externalDocs:
+      url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+  - name: Account Users
+    description: Account owners
+    externalDocs:
+      url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+  - name: Authentication
+    description:  API Gateway Authentication
+    externalDocs:
+      url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+  - name: Registration
+    description: API Gateway Registration
+    externalDocs:
+      url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+  - name: BackOffice
+    description: API Gateway BackOffice - Registration - Authentication
+    externalDocs:
+      url: 'https://meal-wallet-authentication-svc-cgqlclia4q-nw.a.run.app'
+
+paths:
+  /v1/meal-wallet/users:
+    $ref: 'open-api-account-users-spec.yaml'
+  /v1/meal-wallet/users/accounts/{accountId}:
+    $ref: 'open-api-account-users-organization-spec.yaml'
+  /v1/meal-wallet/users/{userId}:
+    $ref: 'open-api-account-user-spec.yaml'
+  /v1/meal-wallet/accounts:
+    $ref: 'open-api-accounts-spec.yaml'
+  /v1/meal-wallet/accounts/{accountId}:
+    $ref: 'open-api-account-spec.yaml'
+  /v1/meal-wallet/organizations:
+    $ref: 'open-api-organizations-spec.yaml'
+#  /v1/meal-wallet/organizations/{organizationId}:
+#    $ref: 'open-api-organization-spec.yaml'
+#  /v1/meal-wallet/organizations/accounts:
+#    $ref: 'open-api-organization-accounts-spec.yaml'
+  /v1/meal-wallet/organizations/accounts/{organizationId}:
+    $ref: 'open-api-organization-account-spec.yaml'
+  /v1/authentication/oauth2/token/{clientId}/{clientSecret}:
+    $ref: 'open-api-authentication-oauth2-spec.yaml'
+  /v1/authentication/users/{userName}/{userPassword}:
+    $ref: 'open-api-authentication-users-spec.yaml'
+  /v1/authentication/users:
+    $ref: 'open-api-user-login-spec.yaml'
+
+  /v1/authentication/forgot/password/users/{userName}:
+    $ref: 'open-api-forgot-password-users-spec.yaml'
+
+  /v1/authentication/confirm/forgotPassword/users/{userName}/{userPassword}/{confirmationCode}:
+    $ref: 'open-api-confirm-forgot-password-users-spec.yaml'
+
+#  /v1/authentication/users/changePassword/{previousPassword}/{proposedPassword}:
+#    $ref: 'open-api-change-password-users-spec.yaml'
+
+
+
+
+  /v1/registration/users:
+    $ref: 'open-api-users-registration-spec.yaml'
+  /v1/registration/users/confirmation/{userName}/{code}:
+    $ref: 'open-api-users-registration-confirmation-spec.yaml'
+  /v1/registration/users/resend/{userName}/confirmationcode:
+    $ref: 'open-api-users-resend-confirmation-spec.yaml'
+
+  /v1/backoffice/registration/users:
+    $ref: 'open-api-admin-registration-spec.yaml'
+#  /v1/backoffice/authentication/users:
+#    $ref: 'open-api-admin-authentication-spec.yaml'
+
+components:
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      description: This API uses OAuth 2 with the client credentials grant flow
+      flows:
+        clientCredentials:
+          tokenUrl: https://meal-wallet.auth.eu-west-1.amazoncognito.com/oauth2/token
+          scopes:
+            UserWrite: Create Users
+            GetUser: Get User data
+            UserRead: List Users
+            UpdateUserData: Update user data
+            CreateUserAccounts: Create Accounts
+            ListUserAccounts: List Accounts
+            GetAccountInfo: Get Account Infos
+            UpdateAccountInfo: Update Account Infos
+            ListOrganizationAccounts: List Organization Accounts
+            CreateOrganizationAccount: Create Organization Account
+            GetOrganizationAccount: Get Organization Account
+            AuthenticateUsers: Authenticate meal-wallet users
+            RegisterNewUsers: Register new users
+            ConfirmUserRegistration: Confirm user registration
+            FetchCommentData: Fetch Comment data
+            UpdateCommentData: Update Comment data
+            FetchCategoryData: Fetch Category data
+            UpdateCategoryData: Update Category data
+            WriteReport: Create Report
+            ReadReport: List Report
+            ReadReports: List Reports
+            UpdateReport: Update Report Data
+            AccountWrite: Create Account
+            CategoryWrite: Create Category
+            ProfessionalWrite: Create Professional
+            ProfessionalRead: Fetch Professional data
+            ProfessionalUpdate: Update Professional data
+            OfferWrite: Create Offer
+            OfferRead: Fetch Offer data
+            OfferUpdate: Update Offer data
+            ApplicationWrite: Create Application
+            ApplicationRead: Fetch Application data
+            ApplicationUpdate: Update Application data
+            QuoteWrite: Create Quote
+            QuoteRead: Fetch Quote data
+            QuoteUpdate: Update Quote data
+  schemas:
+    ResponseStatus:
+      type: string
+      enum:
+        - success
+        - fail
+        - error
+    ResponseStatusCode:
+      type: number
+      example: 1023
+    ResponseStatusDescription:
+      type: string
+      example: error description
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ResponseStatus'
+        statusCode:
+          $ref: '#/components/schemas/ResponseStatusCode'
+        statusDescription:
+          $ref: '#/components/schemas/ResponseStatusDescription'
+    Organization:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Hakili-corp
+        email:
+          type: string
+          example: admin@hakili-corp.io
+        phoneNumber:
+          type: string
+          example: 00447307568957
+        mobileNumber:
+          type: string
+          example: 00447307568957
+        address:
+          $ref: '#/components/schemas/Address'
+    OrganizationWithId:
+      allOf:
+        - $ref: '#/components/schemas/Organization'
+        - type: object
+          required:
+            - organizationId
+          properties:
+            organizationId:
+              type: string
+              description: Organization identifier
+              example: 5e7e2423b7628f5bc41f6bea
+    Organizations:
+      type: array
+      items:
+        $ref: '#/components/schemas/Organization'
+    Address:
+      type: object
+      properties:
+        streetName:
+          type: string
+          description: Street name
+          example: Wicksteed House
+        streetNumber:
+          type: string
+          description: Street number
+          example: 35
+        city:
+          type: string
+          description: The city name
+          example: Elephant And Castle
+        postCode:
+          type: string
+          description: The zip code
+          example: SE16RQ
+        state:
+          type: string
+          description: The state name
+          example: London
+        country:
+          type: string
+          description: The country name
+          example: United Kingdom
+    Account:
+      type: object
+      properties:
+        name:
+          type: string
+          example: yoonwii
+        email:
+          type: string
+          example: admin@yoonwii.io
+        phoneNumber:
+          type: string
+          example: 00447307568957
+        mobileNumber:
+          type: string
+          example: 00447307568957
+        userPassword:
+          type: string
+          description: user password
+          example: M0oiuyt12@uiU
+        address:
+          $ref: '#/components/schemas/Address'
+    Location:
+      type: object
+      properties:
+        coordinates:
+          type: array
+          description: Coordinates
+          example: [-33.97, 40.77]
+    AccountWithId:
+      allOf:
+        - $ref: '#/components/schemas/Account'
+        - type: object
+          required:
+            - accountId
+            - organizationId
+          properties:
+            accountId:
+              type: string
+              description: Account identifier
+              example: 5ea066c96aae701018afdb7b
+            organizationId:
+              type: string
+              example: 5e7e2423b7628f5bc41f6bea
+            createdAt:
+              type: number
+              example: 1587577927
+            modifiedAt:
+              type: number
+              example: 1587577927
+    Accounts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Account'
+    AccountsWithId:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountWithId'
+    AccountUserWithId:
+      allOf:
+        - $ref: '#/components/schemas/AccountUser'
+        - type: object
+          required:
+            - userId
+          properties:
+            userId:
+              type: string
+              description: The user identifier
+              format: uuid
+              example: 5e7e2423b7628f5bc41f6bea
+            createdAt:
+              type: number
+              example: 1587577927
+            modifiedAt:
+              type: number
+              example: 1587577927
+            status:
+              type: string
+              enum:
+                - active
+                - disabled
+                - deleted
+    AccountUser:
+      type: object
+      properties:
+        lastName:
+          type: string
+          description: User last name
+          example: John
+        firstName:
+          type: string
+          description: User first name
+          example: Doe
+        address:
+          $ref: '#/components/schemas/Address'
+        email:
+          type: string
+          description: user email address
+          format: email
+          example: my-email@gmail.com
+        mobileNumber:
+          type: string
+          description: User mobile number
+          example: 00447307568957
+        organizationId:
+          type: string
+          description: organizationId
+          example: 5e4be2fba63699941117e084
+    AccountUsers:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountUser'
+    AccountUsersWithId:
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountUserWithId'
+    RegistrationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: user email address
+          example: john.doe@gmail.com
+        password:
+          type: string
+          description: user password
+          example: M0oiuyt12@uiU
+    AuthenticationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: user email address
+          example: john.doe@gmail.com
+        password:
+          type: string
+          description: user password
+          example: M0oiuyt12@uiU
+    LoginRequest:
+      type: object
+      properties:
+        userName:
+          type: string
+          description: user email address
+          example: john.doe@gmail.com
+        userPassword:
+          type: string
+          description: user password
+          example: M0oiuyt12@uiU
+    User:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: user First Name address
+          example: john
+        lastName:
+          type: string
+          description: user  last Name
+          example: Doe
+        mobileNumber:
+          type: string
+          description: user Phone Number
+          example: joe@hakili.io
+        email:
+          type: string
+          description: user email address
+          example: john.doe@gmail.com

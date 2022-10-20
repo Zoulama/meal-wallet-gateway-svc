@@ -1,0 +1,49 @@
+get:
+  summary: Fetch Account quote data
+  tags:
+    - Quotes
+  security:
+    - oAuth2:
+        - QuoteRead
+  parameters:
+    - name: accountId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched quote data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  organizationQuotes:
+                    $ref: 'open-api-spec.yaml#/components/schemas/QuotesWithId'
+    '404':
+      description: Organization not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Organization not found
+    '500':
+      description: Error when fetching quote
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching quote

@@ -1,0 +1,76 @@
+get:
+  summary: Obtain a list of  offers
+  security:
+    - oAuth2:
+        - OfferRead
+  tags:
+    - Offers
+  responses:
+    '200':
+      description: Successfully obtained list of offers
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  offers:
+                    $ref: 'open-api-spec.yaml#/components/schemas/OffersWithId'
+
+    '500':
+      description: Error when obtaining list of offers
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6001
+            statusDescription: Error when obtaining list of offers
+
+post:
+  summary: Create an offer
+  tags:
+    - Offers
+  security:
+    - oAuth2:
+        - OfferWrite
+  requestBody:
+    description: The  offer specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Offer'
+  responses:
+    '201':
+      description: Successfully created offer
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  offersWithId:
+                    $ref: 'open-api-spec.yaml#/components/schemas/OffersWithId'
+    '500':
+      description: Error when creating offer
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6010
+            statusDescription: Error when creating offer
+
+
+

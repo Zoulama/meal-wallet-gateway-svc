@@ -1,0 +1,40 @@
+get:
+  summary: Obtain a list of  SubCategories
+  security:
+    - oAuth2:
+        - CategoryRead
+  tags:
+    - Categories
+  parameters:
+    - name: categoryId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: "60afdacc2aeef4f26d71c992"
+  responses:
+    '200':
+      description: Successfully obtained list of SubCategories
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  categories:
+                    $ref: 'open-api-spec.yaml#/components/schemas/SubCategoriesWithId'
+
+    '500':
+      description: Error when obtaining list of SubCategories
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6001
+            statusDescription: Error when obtaining list of SubCategories

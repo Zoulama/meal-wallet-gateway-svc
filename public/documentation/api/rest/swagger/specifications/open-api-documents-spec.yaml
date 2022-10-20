@@ -1,0 +1,99 @@
+post:
+  summary: Attach new document to report
+  tags:
+    - Report Documents
+  security:
+    - oAuth2:
+        - AttachNewDocumentToUserProfile
+  parameters:
+    - name: reportId
+      in: path
+      required: true
+      schema:
+        type: string
+        description: User identifier
+        example: 5e6bf1567127a743ad93e3b2
+  requestBody:
+    description: Report Document
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/ReportDocument'
+  responses:
+    '201':
+      description: Successfully attached document to User
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  Document:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportDocumentWithId'
+    '500':
+      description: Error when attaching document to User
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 13004
+            statusDescription: Error when attaching document to User
+get:
+  summary: Return all Report documents
+  tags:
+    - Report Documents
+  security:
+    - oAuth2:
+        - GetUserDocumentInfo
+  parameters:
+    - name: reportId
+      in: path
+      required: true
+      schema:
+        type: string
+        description: User identifier
+        example: 5e6bf1567127a743ad93e3b2
+  responses:
+    '200':
+      description: Successfully obtained document information
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  Document:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportDocumentsWithId'
+    '404':
+      description: Document not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 13003
+            statusDescription: Document not found
+    '500':
+      description: Error when obtaining document information
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 13002
+            statusDescription: Error when obtaining document information
+
+

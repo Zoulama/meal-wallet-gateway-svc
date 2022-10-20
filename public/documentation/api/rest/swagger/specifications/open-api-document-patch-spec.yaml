@@ -1,0 +1,50 @@
+put:
+  summary: Update document status
+  tags:
+    - User Documents
+  security:
+    - oAuth2:
+        - UpdateUserDocumentStatus
+  parameters:
+    - name: userId
+      in: path
+      required: true
+      schema:
+        type: string
+        description: User identifier
+        example: 5e6bf1567127a743ad93e3b2
+    - name: documentId
+      in: path
+      required: true
+      schema:
+        type: string
+        description: Document identifier
+        example: 5e6e9889f5aae9439c41757b
+  requestBody:
+    description: User document status
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              $ref: '#/components/schemas/UserDocumentStatus'
+            comment:
+              type: string
+              example: this document is not valid
+  responses:
+    '200':
+      description: Successfully updated document status
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: '#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  Document:
+                    $ref: '#/components/schemas/ReportDocumentWithId'

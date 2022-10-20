@@ -1,0 +1,28 @@
+get:
+  summary: Obtain organization account data
+  security:
+    - oAuth2:
+      - GetOrganizationAccount
+  tags:
+    - Organizations
+  parameters:
+    - in: path
+      required: true
+      name: organizationId
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully got organization account
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  OrganizationAccount:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountWithId'

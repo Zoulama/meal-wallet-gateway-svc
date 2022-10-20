@@ -1,0 +1,35 @@
+post:
+  summary: Register new user
+  security:
+    - oAuth2:
+        - RegisterNewUsers
+  tags:
+    - BackOffice
+  requestBody:
+    description: Registration request
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/RegistrationRequest'
+  responses:
+    '200':
+      description: Successfully registered the user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccountUser:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountUserWithId'
+    '401':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'

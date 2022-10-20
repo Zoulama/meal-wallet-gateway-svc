@@ -1,0 +1,30 @@
+post:
+  summary: Search reports by geolocation
+  security:
+    - oAuth2:
+        - WriteReport
+  tags:
+    - Reports
+  requestBody:
+    description: The reports specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/SearchRequest'
+  responses:
+    '201':
+      description: Successfully created the report
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroReports:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportWithId'
+

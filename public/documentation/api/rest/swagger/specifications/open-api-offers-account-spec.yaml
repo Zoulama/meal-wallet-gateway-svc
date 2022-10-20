@@ -1,0 +1,49 @@
+get:
+  summary: Fetch Account offer data
+  tags:
+    - Offers
+  security:
+    - oAuth2:
+        - OfferRread
+  parameters:
+    - name: accountId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched offer data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  organizationOffers:
+                    $ref: 'open-api-spec.yaml#/components/schemas/OffersWithId'
+    '404':
+      description: Organization not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Organization not found
+    '500':
+      description: Error when fetching offer
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching offer

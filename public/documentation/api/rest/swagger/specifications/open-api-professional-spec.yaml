@@ -1,0 +1,95 @@
+get:
+  summary: Fetch Professional data
+  tags:
+    - Professionals
+  security:
+    - oAuth2:
+        - ProfessionalRead
+  parameters:
+    - name: professionalId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 67842659403
+  responses:
+    '200':
+      description: Successfully fetched professional data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  professional:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ProfessionalWithId'
+    '404':
+      description: Professional not found
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6020
+            statusDescription: Professional not found
+    '500':
+      description: Error when fetching professional
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 6021
+            statusDescription: Error when fetching professional
+put:
+  summary: Update professional data
+  security:
+    - oAuth2:
+        - ProfessionalUpdate
+  tags:
+    - Professionals
+  parameters:
+    - name: professionalId
+      in: path
+      required: true
+      schema:
+        type: string
+        example: 678442659403
+  requestBody:
+    description: The professional specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/Professional'
+  responses:
+    '201':
+      description: Successfully updated professional
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  professional:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ProfessionalsWithId'
+    '500':
+      description: Error when updating the professional information
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/ErrorResponse'
+          example:
+            status: fail
+            statusCode: 4030
+            statusDescription: Error when updating the professional information

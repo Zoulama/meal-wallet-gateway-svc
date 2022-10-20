@@ -1,0 +1,57 @@
+get:
+  summary: Obtain an Report info
+  security:
+    - oAuth2:
+        - ReadReport
+  tags:
+    - Reports
+  parameters:
+    - in: path
+      required: true
+      name: reportId
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully obtained the report info
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/Report'
+put:
+  summary: Update Report Data
+  security:
+    - oAuth2:
+        - UpdateReport
+  description: Possible value -> pending or in progress or resolved
+  tags:
+    - Reports
+  parameters:
+    - in: path
+      required: true
+      name: reportId
+      schema:
+        type: string
+  requestBody:
+    description: The report data
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/UpdateReportRequest'
+  responses:
+    '200':
+      description: Successfully patched meal-wallet Report
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccountUser:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportWithId'
+

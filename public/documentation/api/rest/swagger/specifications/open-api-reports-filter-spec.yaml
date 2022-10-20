@@ -1,0 +1,63 @@
+get:
+  summary: Obtain a list of reports
+  security:
+    - oAuth2:
+        - ReadReport
+  tags:
+    - Reports
+  parameters:
+    - in: query
+      name: status
+      schema:
+        type: string
+      description: Report status
+    - in: query
+      name: alertLevel
+      schema:
+        type: string
+      description: Report alert Level
+    - in: query
+      name: createdAt
+      schema:
+        type: string
+      description: Report by day
+    - in: query
+      name: country
+      schema:
+        type: string
+      description: Report country
+    - in: query
+      name: city
+      schema:
+        type: string
+      description: Report city
+    - in: query
+      name: state
+      schema:
+        type: string
+      description: Report state
+    - in: query
+      name: categoryId
+      schema:
+        type: string
+      description: Report categoryId
+    - in: query
+      name: subCategoryId
+      schema:
+        type: string
+      description: Report subCategoryId
+  responses:
+    '200':
+      description: Successfully obtained the list of filtered reports
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroReports:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportWithId'

@@ -1,0 +1,45 @@
+get:
+  summary: Obtain a list of reports
+  security:
+    - oAuth2:
+        - ReadReport
+  tags:
+    - Reports
+  responses:
+    '200':
+      description: Successfully obtained the list of reports
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroReports:
+                    $ref: 'open-api-spec.yaml#/components/schemas/ReportWithId'
+post:
+  summary: Create an report
+  security:
+    - oAuth2:
+        - WriteReport
+  tags:
+    - Reports
+  requestBody:
+    description: The reports specification
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'open-api-spec.yaml#/components/schemas/ReportRequest'
+  responses:
+    '201':
+      description: Successfully created the report
+      content:
+        application/json:
+          schema:
+            $ref: 'open-api-spec.yaml#/components/schemas/Report'
+
+

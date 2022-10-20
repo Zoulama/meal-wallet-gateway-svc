@@ -1,0 +1,28 @@
+get:
+  summary: Obtain a list of meal-wallet account users
+  security:
+    - oAuth2:
+        - ListUsers
+  tags:
+    - Account Users
+  parameters:
+    - in: path
+      required: true
+      name: accountId
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Successfully obtained the list of meal-wallet account users
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: 'open-api-spec.yaml#/components/schemas/ResponseStatus'
+              data:
+                type: object
+                properties:
+                  kibaroAccountUsers:
+                    $ref: 'open-api-spec.yaml#/components/schemas/AccountUsersWithId'
