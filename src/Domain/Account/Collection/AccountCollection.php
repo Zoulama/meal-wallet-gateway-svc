@@ -36,9 +36,7 @@ class AccountCollection implements AccountCollectionInterface
         );
     }
 
-    /**
-     * @inheritDoc
-     */
+    /*** @inheritDoc */
     public function toArray(): array
     {
         return array_map(function (AccountEntityInterface $accountEntity){
